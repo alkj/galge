@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b3fcf0"
+    tools:layout_editor_absoluteY="81dp">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:id="@+id/buttonGuess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="71dp"
+        android:text="gæt"
+        app:layout_constraintStart_toStartOf="@+id/textViewWrongLetters"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWrongLetters" />
+
+    <EditText
+        android:id="@+id/editTextGuess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_guess"
+        android:layout_alignStart="@+id/textViewWord"
+        android:layout_marginStart="22dp"
+        android:autofillHints=""
+        android:digits="abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ"
+        android:ems="2"
+        android:inputType="textPersonName"
+        android:maxLength="1"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGuess"
+        app:layout_constraintStart_toStartOf="@+id/buttonGuess" />
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="16dp"
+        android:text="Guess the word"
+        app:layout_constraintStart_toEndOf="@+id/imageViewGalge"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewWord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="31dp"
+        android:text="[ordet]"
+        app:layout_constraintBottom_toTopOf="@+id/textViewWrongLetters"
+        app:layout_constraintEnd_toEndOf="@+id/textViewWrongLetters"
+        app:layout_constraintStart_toStartOf="@+id/textViewWrongLetters" />
+
+    <TextView
+        android:id="@+id/textViewErrorsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editText_guess"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="149dp"
+        android:text="0 Fejl"
+        app:layout_constraintStart_toStartOf="@+id/imageViewGalge"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewGalge"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewErrorsNumber"
+        app:layout_constraintEnd_toStartOf="@+id/textViewWrongLetters"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewTitle"
+        app:srcCompat="@drawable/wrong1" />
+
+    <TextView
+        android:id="@+id/textViewWrongLetters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="121dp"
+        android:text="[forkerte bogstaver]"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewGalge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewGalge" />
+
+</android.support.constraint.ConstraintLayout>
