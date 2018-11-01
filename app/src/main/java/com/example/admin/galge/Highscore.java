@@ -9,9 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+ //TODO: implement logic
+
 public class Highscore extends Fragment {
 
 

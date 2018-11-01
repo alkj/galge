@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     Home home = new Home();
     Play play = new Play();
     Highscore highscore = new Highscore();
-
+    //TODO: implement singleton ?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

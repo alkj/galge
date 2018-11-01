@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 public class Play extends Fragment implements View.OnClickListener {
 
+    //TODO: highscore
+
     EditText editTextGuess;
     Button buttonGuess;
     TextView textViewWord, textViewErrors, textViewWrongLetters, textViewTitle;
