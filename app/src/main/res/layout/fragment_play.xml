@@ -1,88 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b3fcf0"
-    tools:layout_editor_absoluteY="81dp">
+    android:background="#b3fcf0">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <Button
-        android:id="@+id/buttonGuess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="74dp"
-        android:text="gæt"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editTextGuess"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextGuess" />
 
     <EditText
         android:id="@+id/editTextGuess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textViewWord"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="8dp"
+        android:layout_alignTop="@+id/imageViewGalge"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
         android:autofillHints=""
         android:digits="abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ"
         android:ems="2"
+        android:imeOptions=""
         android:inputType="textPersonName"
-        android:maxLength="1"
-        app:layout_constraintEnd_toStartOf="@+id/buttonGuess"
-        app:layout_constraintStart_toEndOf="@+id/textViewWord"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWrongLetters" />
+        android:maxLength="1" />
+
+    <Button
+        android:id="@+id/buttonGuess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="159dp"
+        android:text="gæt" />
 
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/guideline"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Guess the word"
-        app:layout_constraintStart_toStartOf="@+id/textViewWord"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Guess the word" />
+
+    <ImageView
+        android:id="@+id/imageViewGalge"
+        android:layout_width="133dp"
+        android:layout_height="149dp"
+        android:layout_alignEnd="@+id/textViewWrongLetters"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="112dp" />
 
     <TextView
         android:id="@+id/textViewWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
-        android:text="[ordet]"
-        app:layout_constraintEnd_toStartOf="@+id/editTextGuess"
-        app:layout_constraintStart_toEndOf="@+id/imageViewGalge"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+        android:layout_marginTop="27dp"
+        android:text="[ordet]" />
 
     <TextView
         android:id="@+id/textViewErrorsNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="26dp"
-        android:text="0 Fejl"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewGalge"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewGalge" />
-
-    <ImageView
-        android:id="@+id/imageViewGalge"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextGuess"
-        app:layout_constraintEnd_toStartOf="@+id/textViewWord"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewTitle"
-        app:srcCompat="@drawable/wrong1" />
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="224dp"
+        android:text="0 Fejl" />
 
     <TextView
         android:id="@+id/textViewWrongLetters"
@@ -90,10 +74,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="16dp"
-        android:text="[forkerte bogstaver]"
-        app:layout_constraintStart_toStartOf="@+id/textViewWord"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWord" />
+        android:layout_marginTop="56dp"
+        android:text="[forkerte bogstaver]" />
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

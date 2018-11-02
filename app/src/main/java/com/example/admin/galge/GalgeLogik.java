@@ -82,6 +82,7 @@ public class GalgeLogik {
 
     public void nulstil() {
         brugteBogstaver.clear();
+        brugteForkerteBogstaver.clear();
         antalForkerteBogstaver = 0;
         spilletErVundet = false;
         spilletErTabt = false;

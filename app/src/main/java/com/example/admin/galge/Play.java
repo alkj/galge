@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
@@ -48,6 +49,9 @@ public class Play extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonGuess) {
+            if (galgeLogik.erSpilletSlut()) {
+                updateUI();
+            }
             String letterGuessed = editTextGuess.getText().toString();
             letterGuessed = letterGuessed.toLowerCase();
             editTextGuess.getText().clear();
@@ -58,10 +62,15 @@ public class Play extends Fragment implements View.OnClickListener {
     private void guessLetter(String letterGuessed) {
         galgeLogik.gætBogstav(letterGuessed);
         updateUI();
+
     }
 
     private void changeImage(int antalForkerteBogstaver) {
         switch (antalForkerteBogstaver) {
+            case 0:
+                imageViewHangingMan.setImageResource(R.drawable.wrong1);
+                nulstil();
+                break;
             case 1:
                 imageViewHangingMan.setImageResource(R.drawable.wrong2);
                 break;
@@ -85,7 +94,16 @@ public class Play extends Fragment implements View.OnClickListener {
                 imageViewHangingMan.setImageResource(R.drawable.wrong7);
                 startAnimationLost();
                 break;
+            default:
+                imageViewHangingMan.setImageResource(R.drawable.wrong1);
         }
+    }
+
+    private void nulstil() {
+        imageViewHangingMan.clearAnimation();
+        buttonGuess.clearAnimation();
+        buttonGuess.setText("gæt");
+        galgeLogik.nulstil();
     }
 
     private void startAnimationAlmostLost() {
@@ -129,15 +147,6 @@ public class Play extends Fragment implements View.OnClickListener {
     }
 
 
-    private void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
     private void updateUI() {
 
         textViewWord.setText("" + galgeLogik.getSynligtOrd() + "");
@@ -151,6 +160,7 @@ public class Play extends Fragment implements View.OnClickListener {
             } else {
                 textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
                 textViewErrors.setText("spillet er slut");
+                buttonGuess.setText("prøv igen?");
             }
         }
         galgeLogik.logStatus();
