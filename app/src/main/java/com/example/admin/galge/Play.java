@@ -1,7 +1,9 @@
 package com.example.admin.galge;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 public class Play extends Fragment implements View.OnClickListener {
 
@@ -32,9 +35,11 @@ public class Play extends Fragment implements View.OnClickListener {
 
     EditText editTextGuess;
     Button buttonGuess;
-    TextView textViewWord, textViewErrors, textViewWrongLetters, textViewTitle;
+    TextView textViewWord, textViewErrors, textViewWrongLetters, textViewTitle, textViewTimer;
     ImageView imageViewHangingMan;
     GalgeLogik galgeLogik;
+    CountDownTimer countDownTimer;
+    int timer;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -45,6 +50,7 @@ public class Play extends Fragment implements View.OnClickListener {
         textViewWord = (TextView) rod.findViewById(R.id.textViewWord);
         textViewErrors = (TextView) rod.findViewById(R.id.textViewErrorsNumber);
         textViewWrongLetters = (TextView) rod.findViewById(R.id.textViewWrongLetters);
+        textViewTimer = (TextView) rod.findViewById(R.id.textViewTimer);
         imageViewHangingMan = (ImageView) rod.findViewById(R.id.imageViewGalge);
 
         buttonGuess.setOnClickListener(this);
@@ -55,6 +61,7 @@ public class Play extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonGuess) {
+            startTimer();
             if (galgeLogik.erSpilletSlut()) {
                 nulstil();
             }
@@ -163,7 +170,11 @@ public class Play extends Fragment implements View.OnClickListener {
         if (galgeLogik.erSpilletSlut()) {
             if (galgeLogik.erSpilletVundet()) {
                 startAnimationWon();
-                textViewErrors.setText("Du vandt! ");
+                countDownTimer.cancel();
+                int point = timer-2*galgeLogik.getAntalForkerteBogstaver();
+                textViewErrors.setText("Du vandt!\nDu fik\n" + point + " points!");
+
+
             } else {
                 textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
                 textViewErrors.setText("Spillet er slut");
@@ -171,14 +182,37 @@ public class Play extends Fragment implements View.OnClickListener {
             buttonGuess.setText("Prøv igen?");
         }
         galgeLogik.logStatus();
+        startTimer();
     }
 
+    private void startTimer() {
+        if (countDownTimer == null) {
+            countDownTimer = new CountDownTimer(60000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Long tim = millisUntilFinished;
+                    timer = tim.intValue()/1000;
+                    textViewTimer.setText("" + millisUntilFinished / 1000 + "");
+                    Log.i(TAG, "startTimer: " + timer);
+                }
 
-    @Override
-    public void onResume() {
-        if (galgeLogik != null) {
-            updateUI();
+                @Override
+                public void onFinish() {
+                    textViewTimer.setTextColor(Color.RED);
+                    textViewTimer.setText("" + 0 + "");
+                }
+
+            };
+            countDownTimer.start();
         }
-        super.onResume();
     }
-}
+
+
+        @Override
+        public void onResume () {
+            if (galgeLogik != null) {
+                updateUI();
+            }
+            super.onResume();
+        }
+    }
