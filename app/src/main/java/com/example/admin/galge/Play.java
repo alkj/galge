@@ -61,7 +61,6 @@ public class Play extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonGuess) {
-            startTimer();
             if (galgeLogik.erSpilletSlut()) {
                 nulstil();
             }
@@ -170,49 +169,49 @@ public class Play extends Fragment implements View.OnClickListener {
         if (galgeLogik.erSpilletSlut()) {
             if (galgeLogik.erSpilletVundet()) {
                 startAnimationWon();
-                countDownTimer.cancel();
-                int point = timer-2*galgeLogik.getAntalForkerteBogstaver();
+                int point = timer - 2 * galgeLogik.getAntalForkerteBogstaver();
                 textViewErrors.setText("Du vandt!\nDu fik\n" + point + " points!");
-
-
             } else {
                 textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
                 textViewErrors.setText("Spillet er slut");
             }
             buttonGuess.setText("Prøv igen?");
+            countDownTimer.cancel();
+            timer = 0;
         }
         galgeLogik.logStatus();
-        startTimer();
+
+        if (galgeLogik.erSpilletSlut() == false && timer == 0 || countDownTimer == null) {
+            startTimer();
+        }
     }
 
     private void startTimer() {
-        if (countDownTimer == null) {
-            countDownTimer = new CountDownTimer(60000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    Long tim = millisUntilFinished;
-                    timer = tim.intValue()/1000;
-                    textViewTimer.setText("" + millisUntilFinished / 1000 + "");
-                    Log.i(TAG, "startTimer: " + timer);
-                }
-
-                @Override
-                public void onFinish() {
-                    textViewTimer.setTextColor(Color.RED);
-                    textViewTimer.setText("" + 0 + "");
-                }
-
-            };
-            countDownTimer.start();
-        }
-    }
-
-
-        @Override
-        public void onResume () {
-            if (galgeLogik != null) {
-                updateUI();
+        countDownTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Long tim = millisUntilFinished;
+                timer = tim.intValue() / 1000;
+                textViewTimer.setText("" + millisUntilFinished / 1000 + "");
+                Log.i(TAG, "startTimer: " + timer);
             }
-            super.onResume();
-        }
+
+            @Override
+            public void onFinish() {
+                textViewTimer.setTextColor(Color.RED);
+                textViewTimer.setText("" + 0 + "");
+            }
+
+        };
+        countDownTimer.start();
     }
+
+
+    @Override
+    public void onResume() {
+        if (galgeLogik != null) {
+            updateUI();
+        }
+        super.onResume();
+    }
+}
