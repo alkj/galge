@@ -40,6 +40,7 @@ public class Play extends Fragment implements View.OnClickListener {
     GalgeLogik galgeLogik;
     CountDownTimer countDownTimer;
     int timer;
+    boolean gameIsRunning;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -54,28 +55,66 @@ public class Play extends Fragment implements View.OnClickListener {
         imageViewHangingMan = (ImageView) rod.findViewById(R.id.imageViewGalge);
 
         buttonGuess.setOnClickListener(this);
+
+        gameIsRunning = true;
         galgeLogik = GalgeLogik.getInstance();
         return rod;
     }
 
     @Override
     public void onClick(View v) {
+
         if (v.getId() == R.id.buttonGuess) {
-            if (galgeLogik.erSpilletSlut()) {
+
+            if (!gameIsRunning) {
                 nulstil();
+                gameIsRunning = true;
+                buttonGuess.setText("Gæt");
+                if (timer == 0 || countDownTimer == null) {
+                    startTimer(60000);
+                }
             }
+
+            if (gameIsRunning) {
+                if (!(countDownTimer instanceof CountDownTimer))
+                    startTimer(60000);
+            }
+
             String letterGuessed = editTextGuess.getText().toString();
             letterGuessed = letterGuessed.toLowerCase();
             editTextGuess.getText().clear();
-            guessLetter(letterGuessed);
+            galgeLogik.gætBogstav(letterGuessed);
+            updateUI();
         }
     }
 
-    private void guessLetter(String letterGuessed) {
-        galgeLogik.gætBogstav(letterGuessed);
-        updateUI();
+    private void updateUI() {
+        Log.i(TAG, "updateUI: ");
+        textViewWord.setText("" + galgeLogik.getSynligtOrd() + "");
+        textViewErrors.setText("" + galgeLogik.getAntalForkerteBogstaver() + " antal forkerte");
+        textViewWrongLetters.setText(" forkerte bogstaver: " + galgeLogik.getBrugteForkerteBogstaver().toString() + "");
+        changeImage(galgeLogik.getAntalForkerteBogstaver());
 
+        if (galgeLogik.erSpilletSlut() || !(gameIsRunning)) {
+            gameIsRunning = false;
+            if (galgeLogik.erSpilletVundet()) {
+                startAnimationWon();
+                int point = timer - 2 * galgeLogik.getAntalForkerteBogstaver();
+                textViewErrors.setText("Du vandt!\nDu fik\n" + point + " points!");
+            } else {
+                textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
+                textViewErrors.setText("Spillet er slut");
+            }
+            buttonGuess.setText("start spil");
+
+            if (countDownTimer instanceof CountDownTimer) {
+                countDownTimer.cancel();
+                timer = 0;
+            }
+        }
+        galgeLogik.logStatus();
     }
+
 
     private void changeImage(int antalForkerteBogstaver) {
         switch (antalForkerteBogstaver) {
@@ -114,7 +153,6 @@ public class Play extends Fragment implements View.OnClickListener {
         Log.i(TAG, "nulstil: ");
         imageViewHangingMan.clearAnimation();
         buttonGuess.clearAnimation();
-        buttonGuess.setText("gæt");
         galgeLogik.nulstil();
     }
 
@@ -159,35 +197,9 @@ public class Play extends Fragment implements View.OnClickListener {
     }
 
 
-    private void updateUI() {
-        Log.i(TAG, "updateUI: ");
-        textViewWord.setText("" + galgeLogik.getSynligtOrd() + "");
-        textViewErrors.setText("" + galgeLogik.getAntalForkerteBogstaver() + " antal forkerte");
-        textViewWrongLetters.setText(" forkerte bogstaver: " + galgeLogik.getBrugteForkerteBogstaver().toString() + "");
-        changeImage(galgeLogik.getAntalForkerteBogstaver());
+    private void startTimer(int time) {
 
-        if (galgeLogik.erSpilletSlut()) {
-            if (galgeLogik.erSpilletVundet()) {
-                startAnimationWon();
-                int point = timer - 2 * galgeLogik.getAntalForkerteBogstaver();
-                textViewErrors.setText("Du vandt!\nDu fik\n" + point + " points!");
-            } else {
-                textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
-                textViewErrors.setText("Spillet er slut");
-            }
-            buttonGuess.setText("Prøv igen?");
-            countDownTimer.cancel();
-            timer = 0;
-        }
-        galgeLogik.logStatus();
-
-        if (galgeLogik.erSpilletSlut() == false && timer == 0 || countDownTimer == null) {
-            startTimer();
-        }
-    }
-
-    private void startTimer() {
-        countDownTimer = new CountDownTimer(60000, 1000) {
+        countDownTimer = new CountDownTimer(time, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 Long tim = millisUntilFinished;
@@ -198,10 +210,12 @@ public class Play extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                textViewTimer.setTextColor(Color.RED);
                 textViewTimer.setText("" + 0 + "");
+                countDownTimer.cancel();
+                timer = 0;
+                gameIsRunning = false;
+                updateUI();
             }
-
         };
         countDownTimer.start();
     }
@@ -209,9 +223,16 @@ public class Play extends Fragment implements View.OnClickListener {
 
     @Override
     public void onResume() {
-        if (galgeLogik != null) {
-            updateUI();
-        }
+        startTimer(timer * 1000);
+        countDownTimer.start();
+        updateUI();
         super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        countDownTimer.cancel();
+        countDownTimer = null;
+        super.onDestroy();
     }
 }
