@@ -61,18 +61,11 @@ public class Play extends Fragment implements View.OnClickListener {
     private void guessLetter(String letterGuessed) {
         galgeLogik.gætBogstav(letterGuessed);
         if (galgeLogik.erSidsteBogstavKorrekt()) {
+
         } else {
             lettersWrong.add(letterGuessed);
-            changeImage(galgeLogik.getAntalForkerteBogstaver());
-            textViewErrors.setText("" + galgeLogik.getAntalForkerteBogstaver() + "");
-            textViewWrongLetters.setText("" + lettersWrong.toString() + "");
         }
-        textViewWord.setText("" + galgeLogik.getSynligtOrd() + "");
-        if (galgeLogik.erSpilletSlut()) {
-            if (galgeLogik.erSpilletVundet()) {
-                startAnimationWon();
-            }
-        }
+        updateUI();
     }
 
     private void changeImage(int antalForkerteBogstaver) {
@@ -154,14 +147,30 @@ public class Play extends Fragment implements View.OnClickListener {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    private void updateUI(){
+
+        textViewWord.setText("" + galgeLogik.getSynligtOrd() + "");
+        textViewErrors.setText("" + galgeLogik.getAntalForkerteBogstaver() + "");
+        textViewWrongLetters.setText("" + lettersWrong.toString() + "");
+        changeImage(galgeLogik.getAntalForkerteBogstaver());
+
+        if (galgeLogik.erSpilletSlut()) {
+            if (galgeLogik.erSpilletVundet()) {
+                startAnimationWon();
+            } else{
+                textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
+                textViewErrors.setText("spillet er slut");
+            }
+        }
+
+
+    }
+
 
     @Override
     public void onResume() {
         if (galgeLogik != null) {
-            textViewWord.setText("" + galgeLogik.getSynligtOrd() + "");
-            textViewErrors.setText("" + lettersWrong.size() + "");
-            textViewWrongLetters.setText("" + lettersWrong.toString() + "");
-            changeImage(galgeLogik.getAntalForkerteBogstaver());
+            updateUI();
         }
         super.onResume();
     }
