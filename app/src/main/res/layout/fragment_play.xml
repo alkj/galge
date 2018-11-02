@@ -1,87 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b3fcf0">
+    android:background="#b3fcf0"
+    tools:layout_editor_absoluteY="81dp">
 
     <!-- fragment layout -->
 
-
     <ImageView
         android:id="@+id/imageViewGalge"
-        android:layout_width="133dp"
-        android:layout_height="149dp"
-        android:layout_alignEnd="@+id/textViewWrongLetters"
-        android:layout_alignParentTop="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="13dp"
-        android:layout_marginEnd="112dp"/>
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewErrorsNumber"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/wrong1" />
 
 
     <EditText
         android:id="@+id/editTextGuess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageViewGalge"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
         android:autofillHints=""
         android:digits="abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ"
         android:ems="2"
         android:imeOptions=""
         android:inputType="textPersonName"
-        android:maxLength="1" />
+        android:maxLength="1"
+        app:layout_constraintStart_toStartOf="@+id/textViewWord"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWord" />
 
     <Button
         android:id="@+id/buttonGuess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="159dp"
-        android:text="gæt" />
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="44dp"
+        android:text="gæt"
+        app:layout_constraintStart_toEndOf="@+id/imageViewGalge"
+        app:layout_constraintTop_toBottomOf="@+id/editTextGuess" />
 
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/guideline"
-        android:layout_centerHorizontal="true"
-        android:text="Guess the word" />
+        android:text="Guess the word"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp"
-        android:text="[ordet]" />
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="3dp"
+        android:text="[ordet]"
+        app:layout_constraintStart_toStartOf="@+id/textViewWrongLetters"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWrongLetters" />
 
     <TextView
         android:id="@+id/textViewErrorsNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="224dp"
-        android:text="0 Fejl" />
+        android:layout_marginTop="162dp"
+        android:text="0 Fejl"
+        app:layout_constraintStart_toStartOf="@+id/imageViewGalge"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewWrongLetters"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="56dp"
-        android:text="[forkerte bogstaver]" />
+        android:layout_marginTop="7dp"
+        android:text="[forkerte bogstaver]"
+        app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
