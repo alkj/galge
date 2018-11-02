@@ -14,36 +14,36 @@
         android:id="@+id/buttonGuess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="71dp"
+        android:layout_marginEnd="74dp"
         android:text="gæt"
-        app:layout_constraintStart_toStartOf="@+id/textViewWrongLetters"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWrongLetters" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/editTextGuess"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextGuess" />
 
     <EditText
         android:id="@+id/editTextGuess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button_guess"
         android:layout_alignStart="@+id/textViewWord"
-        android:layout_marginStart="22dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
         android:autofillHints=""
         android:digits="abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ"
         android:ems="2"
         android:inputType="textPersonName"
         android:maxLength="1"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGuess"
-        app:layout_constraintStart_toStartOf="@+id/buttonGuess" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonGuess"
+        app:layout_constraintStart_toEndOf="@+id/textViewWord"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWrongLetters" />
 
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="26dp"
         android:layout_marginTop="16dp"
         android:text="Guess the word"
-        app:layout_constraintStart_toEndOf="@+id/imageViewGalge"
+        app:layout_constraintStart_toStartOf="@+id/textViewWord"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -51,23 +51,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp"
+        android:layout_marginTop="17dp"
         android:text="[ordet]"
-        app:layout_constraintBottom_toTopOf="@+id/textViewWrongLetters"
-        app:layout_constraintEnd_toEndOf="@+id/textViewWrongLetters"
-        app:layout_constraintStart_toStartOf="@+id/textViewWrongLetters" />
+        app:layout_constraintEnd_toStartOf="@+id/editTextGuess"
+        app:layout_constraintStart_toEndOf="@+id/imageViewGalge"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
     <TextView
         android:id="@+id/textViewErrorsNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editText_guess"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="149dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="26dp"
         android:text="0 Fejl"
-        app:layout_constraintStart_toStartOf="@+id/imageViewGalge"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/imageViewGalge"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewGalge" />
 
     <ImageView
         android:id="@+id/imageViewGalge"
@@ -77,10 +76,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="19dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="19dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewErrorsNumber"
-        app:layout_constraintEnd_toStartOf="@+id/textViewWrongLetters"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextGuess"
+        app:layout_constraintEnd_toStartOf="@+id/textViewWord"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewTitle"
         app:srcCompat="@drawable/wrong1" />
@@ -91,10 +90,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="121dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="16dp"
         android:text="[forkerte bogstaver]"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewGalge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewGalge" />
+        app:layout_constraintStart_toStartOf="@+id/textViewWord"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWord" />
 
 </android.support.constraint.ConstraintLayout>

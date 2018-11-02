@@ -38,6 +38,7 @@ public class GalgeLogik {
     ArrayList<String> muligeOrd = new ArrayList<String>();
     private String ordet;
     private ArrayList<String> brugteBogstaver = new ArrayList<String>();
+    private ArrayList<String> brugteForkerteBogstaver = new ArrayList<String>();
     private String synligtOrd;
     private int antalForkerteBogstaver;
     private boolean sidsteBogstavVarKorrekt;
@@ -47,6 +48,8 @@ public class GalgeLogik {
     public ArrayList<String> getBrugteBogstaver() {
         return brugteBogstaver;
     }
+
+    public ArrayList<String> getBrugteForkerteBogstaver() {return brugteForkerteBogstaver;}
 
     public String getSynligtOrd() {
         return synligtOrd;
@@ -118,6 +121,7 @@ public class GalgeLogik {
             sidsteBogstavVarKorrekt = false;
             System.out.println("Bogstavet var IKKE korrekt: " + bogstav);
             antalForkerteBogstaver = antalForkerteBogstaver + 1;
+            brugteForkerteBogstaver.add(bogstav);
             if (antalForkerteBogstaver > 6) {
                 spilletErTabt = true;
             }

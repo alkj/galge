@@ -26,7 +26,6 @@ public class Play extends Fragment implements View.OnClickListener {
     EditText editTextGuess;
     Button buttonGuess;
     TextView textViewWord, textViewErrors, textViewWrongLetters, textViewTitle;
-    ArrayList<String> lettersWrong = new ArrayList<>();
     ImageView imageViewHangingMan;
     GalgeLogik galgeLogik;
 
@@ -42,9 +41,7 @@ public class Play extends Fragment implements View.OnClickListener {
         imageViewHangingMan = (ImageView) rod.findViewById(R.id.imageViewGalge);
 
         buttonGuess.setOnClickListener(this);
-
         galgeLogik = GalgeLogik.getInstance();
-
         return rod;
     }
 
@@ -60,11 +57,6 @@ public class Play extends Fragment implements View.OnClickListener {
 
     private void guessLetter(String letterGuessed) {
         galgeLogik.gætBogstav(letterGuessed);
-        if (galgeLogik.erSidsteBogstavKorrekt()) {
-
-        } else {
-            lettersWrong.add(letterGuessed);
-        }
         updateUI();
     }
 
@@ -114,7 +106,6 @@ public class Play extends Fragment implements View.OnClickListener {
         animationSet.setDuration(2000);
         animationSet.setFillAfter(true);
         animationSet.setFillEnabled(true);
-
         buttonGuess.startAnimation(animationSet);
     }
 
@@ -147,23 +138,22 @@ public class Play extends Fragment implements View.OnClickListener {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    private void updateUI(){
+    private void updateUI() {
 
         textViewWord.setText("" + galgeLogik.getSynligtOrd() + "");
-        textViewErrors.setText("" + galgeLogik.getAntalForkerteBogstaver() + "");
-        textViewWrongLetters.setText("" + lettersWrong.toString() + "");
+        textViewErrors.setText("" + galgeLogik.getAntalForkerteBogstaver() + " antal forkerte");
+        textViewWrongLetters.setText(" forkerte bogstaver: " + galgeLogik.getBrugteForkerteBogstaver().toString() + "");
         changeImage(galgeLogik.getAntalForkerteBogstaver());
 
         if (galgeLogik.erSpilletSlut()) {
             if (galgeLogik.erSpilletVundet()) {
                 startAnimationWon();
-            } else{
+            } else {
                 textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
                 textViewErrors.setText("spillet er slut");
             }
         }
-
-
+        galgeLogik.logStatus();
     }
 
 
