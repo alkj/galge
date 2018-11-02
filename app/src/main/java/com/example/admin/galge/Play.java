@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
@@ -23,6 +27,8 @@ import java.util.ArrayList;
 public class Play extends Fragment implements View.OnClickListener {
 
     //TODO: highscore
+
+    private final String TAG = "PlayFragment";
 
     EditText editTextGuess;
     Button buttonGuess;
@@ -50,7 +56,7 @@ public class Play extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.buttonGuess) {
             if (galgeLogik.erSpilletSlut()) {
-                updateUI();
+                nulstil();
             }
             String letterGuessed = editTextGuess.getText().toString();
             letterGuessed = letterGuessed.toLowerCase();
@@ -69,7 +75,6 @@ public class Play extends Fragment implements View.OnClickListener {
         switch (antalForkerteBogstaver) {
             case 0:
                 imageViewHangingMan.setImageResource(R.drawable.wrong1);
-                nulstil();
                 break;
             case 1:
                 imageViewHangingMan.setImageResource(R.drawable.wrong2);
@@ -100,6 +105,7 @@ public class Play extends Fragment implements View.OnClickListener {
     }
 
     private void nulstil() {
+        Log.i(TAG, "nulstil: ");
         imageViewHangingMan.clearAnimation();
         buttonGuess.clearAnimation();
         buttonGuess.setText("gæt");
@@ -148,7 +154,7 @@ public class Play extends Fragment implements View.OnClickListener {
 
 
     private void updateUI() {
-
+        Log.i(TAG, "updateUI: ");
         textViewWord.setText("" + galgeLogik.getSynligtOrd() + "");
         textViewErrors.setText("" + galgeLogik.getAntalForkerteBogstaver() + " antal forkerte");
         textViewWrongLetters.setText(" forkerte bogstaver: " + galgeLogik.getBrugteForkerteBogstaver().toString() + "");
@@ -157,11 +163,12 @@ public class Play extends Fragment implements View.OnClickListener {
         if (galgeLogik.erSpilletSlut()) {
             if (galgeLogik.erSpilletVundet()) {
                 startAnimationWon();
+                textViewErrors.setText("Du vandt! ");
             } else {
                 textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
-                textViewErrors.setText("spillet er slut");
-                buttonGuess.setText("prøv igen?");
+                textViewErrors.setText("Spillet er slut");
             }
+            buttonGuess.setText("Prøv igen?");
         }
         galgeLogik.logStatus();
     }

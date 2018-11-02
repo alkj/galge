@@ -7,7 +7,18 @@
     android:layout_height="match_parent"
     android:background="#b3fcf0">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- fragment layout -->
+
+
+    <ImageView
+        android:id="@+id/imageViewGalge"
+        android:layout_width="133dp"
+        android:layout_height="149dp"
+        android:layout_alignEnd="@+id/textViewWrongLetters"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="112dp"/>
+
 
     <EditText
         android:id="@+id/editTextGuess"
@@ -39,15 +50,6 @@
         android:layout_below="@+id/guideline"
         android:layout_centerHorizontal="true"
         android:text="Guess the word" />
-
-    <ImageView
-        android:id="@+id/imageViewGalge"
-        android:layout_width="133dp"
-        android:layout_height="149dp"
-        android:layout_alignEnd="@+id/textViewWrongLetters"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="112dp" />
 
     <TextView
         android:id="@+id/textViewWord"
