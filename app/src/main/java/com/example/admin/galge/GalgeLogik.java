@@ -155,9 +155,9 @@ public class GalgeLogik {
     }
 
 
-    public void hentOrdFraDr() throws Exception {
+    public String hentOrdFraDr() throws Exception {
         String data = hentUrl("https://dr.dk");
-        //System.out.println("data = " + data);
+        System.out.println("data = " + data);
 
         data = data.substring(data.indexOf("<body")). // fjern headere
                 replaceAll("<.+?>", " ").toLowerCase(). // fjern tags
@@ -173,10 +173,15 @@ public class GalgeLogik {
 
         System.out.println("data = " + data);
         System.out.println("data = " + Arrays.asList(data.split("\\s+")));
-        muligeOrd.clear();
-        muligeOrd.addAll(new HashSet<String>(Arrays.asList(data.split(" "))));
 
         System.out.println("muligeOrd = " + muligeOrd);
         nulstil();
+        return data;
     }
+
+    public void erstatMuligeOrd(String data){
+        muligeOrd.clear();
+        muligeOrd.addAll(new HashSet<String>(Arrays.asList(data.split(" "))));
+    }
+
 }

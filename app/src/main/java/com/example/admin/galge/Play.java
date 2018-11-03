@@ -1,9 +1,12 @@
 package com.example.admin.galge;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +30,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import static com.example.admin.galge.GalgeLogik.hentUrl;
+
 public class Play extends Fragment implements View.OnClickListener {
 
     //TODO: highscore
@@ -34,19 +39,22 @@ public class Play extends Fragment implements View.OnClickListener {
     private final String TAG = "PlayFragment";
 
     EditText editTextGuess;
-    Button buttonGuess;
+    Button buttonGuess, buttonRestart;
     TextView textViewWord, textViewErrors, textViewWrongLetters, textViewTitle, textViewTimer;
     ImageView imageViewHangingMan;
     GalgeLogik galgeLogik;
     CountDownTimer countDownTimer;
     int timer;
     boolean gameIsRunning;
+    boolean gameJustStarted = true;
+    String newWords;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.fragment_play, container, false);
 
         buttonGuess = (Button) rod.findViewById(R.id.buttonGuess);
+        buttonRestart = (Button) rod.findViewById(R.id.buttonRestart);
         editTextGuess = (EditText) rod.findViewById(R.id.editTextGuess);
         textViewWord = (TextView) rod.findViewById(R.id.textViewWord);
         textViewErrors = (TextView) rod.findViewById(R.id.textViewErrorsNumber);
@@ -55,9 +63,10 @@ public class Play extends Fragment implements View.OnClickListener {
         imageViewHangingMan = (ImageView) rod.findViewById(R.id.imageViewGalge);
 
         buttonGuess.setOnClickListener(this);
+        buttonRestart.setOnClickListener(this);
 
-        gameIsRunning = true;
         galgeLogik = GalgeLogik.getInstance();
+
         return rod;
     }
 
@@ -66,27 +75,23 @@ public class Play extends Fragment implements View.OnClickListener {
 
         if (v.getId() == R.id.buttonGuess) {
 
-            if (!gameIsRunning) {
-                nulstil();
-                gameIsRunning = true;
-                buttonGuess.setText("Gæt");
-                if (timer == 0 || countDownTimer == null) {
-                    startTimer(60000);
-                }
+            if(gameIsRunning) {
+                String letterGuessed = editTextGuess.getText().toString();
+                letterGuessed = letterGuessed.toLowerCase();
+                editTextGuess.getText().clear();
+                galgeLogik.gætBogstav(letterGuessed);
+                updateUI();
             }
 
-            if (gameIsRunning) {
-                if (!(countDownTimer instanceof CountDownTimer))
-                    startTimer(60000);
-            }
-
-            String letterGuessed = editTextGuess.getText().toString();
-            letterGuessed = letterGuessed.toLowerCase();
-            editTextGuess.getText().clear();
-            galgeLogik.gætBogstav(letterGuessed);
+        } else if (v.getId() == R.id.buttonRestart ) {
+            nulstil();
+            gameIsRunning = true;
+            countDownTimer.cancel();
+            startTimer(60000);
             updateUI();
         }
     }
+
 
     private void updateUI() {
         Log.i(TAG, "updateUI: ");
@@ -95,22 +100,18 @@ public class Play extends Fragment implements View.OnClickListener {
         textViewWrongLetters.setText(" forkerte bogstaver: " + galgeLogik.getBrugteForkerteBogstaver().toString() + "");
         changeImage(galgeLogik.getAntalForkerteBogstaver());
 
-        if (galgeLogik.erSpilletSlut() || !(gameIsRunning)) {
+        if (galgeLogik.erSpilletSlut() || !gameIsRunning) {
             gameIsRunning = false;
             if (galgeLogik.erSpilletVundet()) {
                 startAnimationWon();
                 int point = timer - 2 * galgeLogik.getAntalForkerteBogstaver();
                 textViewErrors.setText("Du vandt!\nDu fik\n" + point + " points!");
             } else {
-                textViewWord.setText("Du tabte! ordet var: " + galgeLogik.getOrdet());
+                textViewWord.setText("Du tabte! ordet var: \n" + galgeLogik.getOrdet());
                 textViewErrors.setText("Spillet er slut");
+                startAnimationLost();
             }
-            buttonGuess.setText("start spil");
 
-            if (countDownTimer instanceof CountDownTimer) {
-                countDownTimer.cancel();
-                timer = 0;
-            }
         }
         galgeLogik.logStatus();
     }
@@ -154,6 +155,11 @@ public class Play extends Fragment implements View.OnClickListener {
         imageViewHangingMan.clearAnimation();
         buttonGuess.clearAnimation();
         galgeLogik.nulstil();
+        try {
+            loadWordsFromInternet();
+        } catch (Exception e) {
+            Log.e(TAG, "nulstil: ", e);
+        }
     }
 
     private void startAnimationAlmostLost() {
@@ -211,7 +217,7 @@ public class Play extends Fragment implements View.OnClickListener {
             @Override
             public void onFinish() {
                 textViewTimer.setText("" + 0 + "");
-                countDownTimer.cancel();
+                //countDownTimer.cancel();
                 timer = 0;
                 gameIsRunning = false;
                 updateUI();
@@ -234,5 +240,31 @@ public class Play extends Fragment implements View.OnClickListener {
         countDownTimer.cancel();
         countDownTimer = null;
         super.onDestroy();
+    }
+
+    private void loadWordsFromInternet() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        String titler = prefs.getString("titler", "(henter, vent et øjeblik)"); // Hent fra prefs
+
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object... arg0) {
+                try {
+                    newWords = galgeLogik.hentOrdFraDr();
+                    prefs.edit().putString("titler", newWords).commit();
+                    Log.i(TAG, "doInBackground: " + newWords);
+                    return newWords;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return e;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Object titler) {
+                galgeLogik.erstatMuligeOrd("" + titler + "");
+            }
+        }.execute();
+
     }
 }
