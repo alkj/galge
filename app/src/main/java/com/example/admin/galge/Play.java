@@ -34,7 +34,6 @@ public class Play extends Fragment implements View.OnClickListener {
     CountDownTimer countDownTimer;
     int timer;
     boolean gameIsRunning;
-    String words;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -135,16 +134,18 @@ public class Play extends Fragment implements View.OnClickListener {
 
     private void restart() {
         Log.i(TAG, "restart: ");
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         gameIsRunning = true;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         try {
             galgeLogik.erstatMuligeOrd(prefs.getString("titler", "titler"));
+            Log.i(TAG, "restart: galgelogik.erstatmuligeord");
         } catch (Exception e) {
             System.out.print("no words loaded \n" + e);
         }
 
-        if (countDownTimer != null)
+        if (countDownTimer != null) {
             countDownTimer.cancel();
+        }
         startTimer(60000);
         imageViewHangingMan.clearAnimation();
         buttonGuess.clearAnimation();
@@ -241,14 +242,18 @@ public class Play extends Fragment implements View.OnClickListener {
         super.onDestroy();
     }
 
+
     private void loadWordsFromInternet() {
+        Log.i(TAG, "loadWordsFromInternet: ");
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
         new AsyncTask() {
+            String newWords;
+
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    String newWords = galgeLogik.hentOrdFraDr();
-                    prefs.edit().putString("titler", newWords).commit();
+                    newWords = galgeLogik.hentOrdFraDr();
                     return newWords;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -258,10 +263,9 @@ public class Play extends Fragment implements View.OnClickListener {
 
             @Override
             protected void onPostExecute(Object titler) {
-
+                prefs.edit().putString("titler", newWords).commit();
+                updateUI();
             }
         }.execute();
-
-
     }
 }
