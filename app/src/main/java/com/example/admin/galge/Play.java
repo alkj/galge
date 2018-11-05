@@ -1,36 +1,24 @@
 package com.example.admin.galge;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Observable;
-
-import static com.example.admin.galge.GalgeLogik.hentUrl;
 
 public class Play extends Fragment implements View.OnClickListener {
 
@@ -46,8 +34,7 @@ public class Play extends Fragment implements View.OnClickListener {
     CountDownTimer countDownTimer;
     int timer;
     boolean gameIsRunning;
-    boolean gameJustStarted = true;
-    String newWords;
+    String words;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -67,6 +54,8 @@ public class Play extends Fragment implements View.OnClickListener {
 
         galgeLogik = GalgeLogik.getInstance();
 
+        restart();
+
         return rod;
     }
 
@@ -75,20 +64,14 @@ public class Play extends Fragment implements View.OnClickListener {
 
         if (v.getId() == R.id.buttonGuess) {
 
-            if(gameIsRunning) {
-                String letterGuessed = editTextGuess.getText().toString();
-                letterGuessed = letterGuessed.toLowerCase();
+            if (gameIsRunning) {
+                galgeLogik.gætBogstav(editTextGuess.getText().toString().toLowerCase());
                 editTextGuess.getText().clear();
-                galgeLogik.gætBogstav(letterGuessed);
                 updateUI();
             }
 
-        } else if (v.getId() == R.id.buttonRestart ) {
-            nulstil();
-            gameIsRunning = true;
-            countDownTimer.cancel();
-            startTimer(60000);
-            updateUI();
+        } else if (v.getId() == R.id.buttonRestart) {
+            restart();
         }
     }
 
@@ -150,16 +133,28 @@ public class Play extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void nulstil() {
-        Log.i(TAG, "nulstil: ");
+    private void restart() {
+        Log.i(TAG, "restart: ");
+        gameIsRunning = true;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        try {
+            galgeLogik.erstatMuligeOrd(prefs.getString("titler", "titler"));
+        } catch (Exception e) {
+            System.out.print("no words loaded \n" + e);
+        }
+
+        if (countDownTimer != null)
+            countDownTimer.cancel();
+        startTimer(60000);
         imageViewHangingMan.clearAnimation();
         buttonGuess.clearAnimation();
-        galgeLogik.nulstil();
         try {
             loadWordsFromInternet();
         } catch (Exception e) {
-            Log.e(TAG, "nulstil: ", e);
+            Log.e(TAG, "restart: ", e);
         }
+        galgeLogik.nulstil();
+        updateUI();
     }
 
     private void startAnimationAlmostLost() {
@@ -205,6 +200,9 @@ public class Play extends Fragment implements View.OnClickListener {
 
     private void startTimer(int time) {
 
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         countDownTimer = new CountDownTimer(time, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -223,36 +221,34 @@ public class Play extends Fragment implements View.OnClickListener {
                 updateUI();
             }
         };
+
         countDownTimer.start();
     }
 
 
-    @Override
-    public void onResume() {
-        startTimer(timer * 1000);
-        countDownTimer.start();
-        updateUI();
-        super.onResume();
-    }
+    /**
+     * @Override public void onResume() {
+     * startTimer(timer * 1000);
+     * countDownTimer.start();
+     * restart();
+     * updateUI();
+     * super.onResume();
+     * }
+     */
 
     @Override
     public void onDestroy() {
-        countDownTimer.cancel();
-        countDownTimer = null;
         super.onDestroy();
     }
 
     private void loadWordsFromInternet() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-        String titler = prefs.getString("titler", "(henter, vent et øjeblik)"); // Hent fra prefs
-
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object... arg0) {
                 try {
-                    newWords = galgeLogik.hentOrdFraDr();
+                    String newWords = galgeLogik.hentOrdFraDr();
                     prefs.edit().putString("titler", newWords).commit();
-                    Log.i(TAG, "doInBackground: " + newWords);
                     return newWords;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -262,9 +258,10 @@ public class Play extends Fragment implements View.OnClickListener {
 
             @Override
             protected void onPostExecute(Object titler) {
-                galgeLogik.erstatMuligeOrd("" + titler + "");
+
             }
         }.execute();
+
 
     }
 }
