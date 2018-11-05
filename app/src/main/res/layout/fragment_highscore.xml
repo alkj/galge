@@ -1,15 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fcceb3">
+    android:background="#fcceb3"
+    android:id="@+id/relativeLayout2">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Highscore" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Highscore"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/textViewHighScore1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alexander 50"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="75dp" />
+
+    <TextView
+        android:id="@+id/textViewHighScore2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alexander 50"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="112dp" />
+
+    <TextView
+        android:id="@+id/textViewHighScore3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alexander 50"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="147dp" />
+
+    <TextView
+        android:id="@+id/textViewHighScore4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alexander 50"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="180dp" />
+
+    <TextView
+        android:id="@+id/textViewHighScore5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alexander 50"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="214dp" />
+
+</android.support.constraint.ConstraintLayout>

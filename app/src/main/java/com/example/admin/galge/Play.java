@@ -1,5 +1,6 @@
 package com.example.admin.galge;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class Play extends Fragment implements View.OnClickListener {
     CountDownTimer countDownTimer;
     int timer;
     boolean gameIsRunning;
+    final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -82,12 +84,15 @@ public class Play extends Fragment implements View.OnClickListener {
         textViewWrongLetters.setText(" forkerte bogstaver: " + galgeLogik.getBrugteForkerteBogstaver().toString() + "");
         changeImage(galgeLogik.getAntalForkerteBogstaver());
 
+
         if (galgeLogik.erSpilletSlut() || !gameIsRunning) {
             gameIsRunning = false;
             if (galgeLogik.erSpilletVundet()) {
                 startAnimationWon();
                 int point = timer - 2 * galgeLogik.getAntalForkerteBogstaver();
                 textViewErrors.setText("Du vandt!\nDu fik\n" + point + " points!");
+                new GameWon(point);
+
             } else {
                 textViewWord.setText("Du tabte! ordet var: \n" + galgeLogik.getOrdet());
                 textViewErrors.setText("Spillet er slut");
@@ -134,7 +139,6 @@ public class Play extends Fragment implements View.OnClickListener {
 
     private void restart() {
         Log.i(TAG, "restart: ");
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         gameIsRunning = true;
         try {
             galgeLogik.erstatMuligeOrd(prefs.getString("titler", "titler"));
@@ -245,7 +249,6 @@ public class Play extends Fragment implements View.OnClickListener {
 
     private void loadWordsFromInternet() {
         Log.i(TAG, "loadWordsFromInternet: ");
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
         new AsyncTask() {
             String newWords;
