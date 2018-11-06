@@ -175,7 +175,7 @@ public class GalgeLogik {
         //System.out.println("data = " + Arrays.asList(data.split("\\s+")));
 
         System.out.println("muligeOrd = " + muligeOrd);
-        nulstil();
+        //nulstil();
         return data;
     }
 

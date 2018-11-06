@@ -1,6 +1,7 @@
 package com.example.admin.galge;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashSet;
+import java.util.Timer;
+
 public class Play extends Fragment implements View.OnClickListener {
 
     //TODO: highscore
@@ -35,11 +39,13 @@ public class Play extends Fragment implements View.OnClickListener {
     CountDownTimer countDownTimer;
     int timer;
     boolean gameIsRunning;
-    final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+    SharedPreferences prefs;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.fragment_play, container, false);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
         buttonGuess = (Button) rod.findViewById(R.id.buttonGuess);
         buttonRestart = (Button) rod.findViewById(R.id.buttonRestart);
@@ -84,6 +90,7 @@ public class Play extends Fragment implements View.OnClickListener {
         textViewWrongLetters.setText(" forkerte bogstaver: " + galgeLogik.getBrugteForkerteBogstaver().toString() + "");
         changeImage(galgeLogik.getAntalForkerteBogstaver());
 
+        String highscores = prefs.getString("highscore", "none");
 
         if (galgeLogik.erSpilletSlut() || !gameIsRunning) {
             gameIsRunning = false;
@@ -91,7 +98,13 @@ public class Play extends Fragment implements View.OnClickListener {
                 startAnimationWon();
                 int point = timer - 2 * galgeLogik.getAntalForkerteBogstaver();
                 textViewErrors.setText("Du vandt!\nDu fik\n" + point + " points!");
-                new GameWon(point);
+                highscores += "" + point + "\n";
+                prefs.edit().putString("highscore", "" + point + "\n").commit();
+
+                //HashSet<String> score = new HashSet<>();
+                //score = (HashSet<String>) prefs.getStringSet("score", "loading...");
+                //score.add("" + score + "");
+                //prefs.edit().putStringSet("score", score).commit();
 
             } else {
                 textViewWord.setText("Du tabte! ordet var: \n" + galgeLogik.getOrdet());
@@ -266,8 +279,10 @@ public class Play extends Fragment implements View.OnClickListener {
 
             @Override
             protected void onPostExecute(Object titler) {
+                Log.i(TAG, "onPostExecute: -------------------------------------------comitted new words-----------------------------------");
+                //galgeLogik.erstatMuligeOrd(newWords);
                 prefs.edit().putString("titler", newWords).commit();
-                updateUI();
+                //updateUI();
             }
         }.execute();
     }
