@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class Play extends Fragment implements View.OnClickListener {
     int timer;
     boolean gameIsRunning;
     SharedPreferences prefs;
+    public String winnerName;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -90,28 +92,26 @@ public class Play extends Fragment implements View.OnClickListener {
         textViewWrongLetters.setText(" forkerte bogstaver: " + galgeLogik.getBrugteForkerteBogstaver().toString() + "");
         changeImage(galgeLogik.getAntalForkerteBogstaver());
 
-        String highscores = prefs.getString("highscore", "none");
 
         if (galgeLogik.erSpilletSlut() || !gameIsRunning) {
             gameIsRunning = false;
-            if (galgeLogik.erSpilletVundet()) {
-                startAnimationWon();
-                int point = timer - 2 * galgeLogik.getAntalForkerteBogstaver();
-                textViewErrors.setText("Du vandt!\nDu fik\n" + point + " points!");
-                highscores += "" + point + "\n";
-                prefs.edit().putString("highscore", "" + point + "\n").commit();
 
-                //HashSet<String> score = new HashSet<>();
-                //score = (HashSet<String>) prefs.getStringSet("score", "loading...");
-                //score.add("" + score + "");
-                //prefs.edit().putStringSet("score", score).commit();
+            if (galgeLogik.erSpilletVundet()) {
+                String highscores = prefs.getString("highscore", "none");
+                DialogFragment dialogFragment = new DialogFragment();
+                dialogFragment.show(getFragmentManager(), "Dialog");
+                startAnimationWon();
+                int point = (timer - 2 * galgeLogik.getAntalForkerteBogstaver())*123;
+                textViewErrors.setText("Du vandt " + winnerName +"!\nDu fik\n" + point + " points!");
+                highscores += ""+ winnerName + " " + point + "\n";
+                prefs.edit().putString("highscore", highscores).commit();
 
             } else {
                 textViewWord.setText("Du tabte! ordet var: \n" + galgeLogik.getOrdet());
                 textViewErrors.setText("Spillet er slut");
                 startAnimationLost();
             }
-
+            countDownTimer.cancel();
         }
         galgeLogik.logStatus();
     }
@@ -285,5 +285,9 @@ public class Play extends Fragment implements View.OnClickListener {
                 //updateUI();
             }
         }.execute();
+    }
+
+    public void setWinnerName(String winnerName) {
+        this.winnerName = winnerName;
     }
 }
