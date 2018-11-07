@@ -14,9 +14,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.SortedSet;
+import java.util.TreeMap;
 
 
 //TODO: implement logic
@@ -49,7 +52,20 @@ public class Highscore extends Fragment {
 
         String highscores = prefs.getString("highscore", "loader...");
 
-        highScore1.setText(highscores);
+        String[] highscore = highscores.split("\n");
+
+
+
+        Arrays.sort(highscore);
+
+        String str ="";
+
+        for(int i = 0 ; i<5; i++){
+            str += highscore[i];
+            str += "\n";
+        }
+
+        highScore1.setText(str);
 
     }
 }

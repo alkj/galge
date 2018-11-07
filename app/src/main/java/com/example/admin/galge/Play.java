@@ -41,7 +41,6 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
     int timer;
     boolean gameIsRunning;
     SharedPreferences prefs;
-    public String winnerName;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -62,6 +61,11 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
         buttonRestart.setOnClickListener(this);
 
         galgeLogik = GalgeLogik.getInstance();
+
+        //prefs.edit().putString("highscore", "100 Alexander\n200 Laura\n150 Peter\n50 Finn\n10 per\n150 Peter\n50 Finn\n10 per\n").commit();
+        prefs.edit().putString("highscore", "Alexander 100\nLaura 200\nPeter 150\nFinn 50\nper 10\nPeter 150\nFinn 50\nper 10\n").commit();
+
+
 
         restart();
 
@@ -152,7 +156,7 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
         Log.i(TAG, "restart: ");
         gameIsRunning = true;
         try {
-            galgeLogik.erstatMuligeOrd(prefs.getString("titler", "titler"));
+            galgeLogik.erstatMuligeOrd(prefs.getString("titler", "hest løb høj politikere sandhed pervers"));
             Log.i(TAG, "restart: galgelogik.erstatmuligeord");
         } catch (Exception e) {
             System.out.print("no words loaded \n" + e);
@@ -285,12 +289,12 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
     @Override
     public void sendInput(String input) {
         Log.i(TAG, "sendInput: " + input);
-        this.winnerName = input;
+        String winnerName = input;
         String highscores = prefs.getString("highscore", "none");
         int point = (13*timer - 21 * galgeLogik.getAntalForkerteBogstaver()+ galgeLogik.getOrdet().length() );
         Log.i(TAG, "updateUI: " + winnerName + " " + point);
         textViewErrors.setText("Du vandt " + winnerName + "!\nDu fik\n" + point + " points!");
-        highscores += "" + winnerName + " " + point + "\n";
+        highscores += "" + point + " " + winnerName + "\n";
         prefs.edit().putString("highscore", highscores).commit();
 
 
