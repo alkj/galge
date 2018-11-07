@@ -99,7 +99,9 @@ public class Play extends Fragment implements View.OnClickListener {
             if (galgeLogik.erSpilletVundet()) {
                 String highscores = prefs.getString("highscore", "none");
                 DialogFragment dialogFragment = new DialogFragment();
+                dialogFragment.setTargetFragment(Play.this, 1);
                 dialogFragment.show(getFragmentManager(), "Dialog");
+
                 startAnimationWon();
                 int point = (timer - 2 * galgeLogik.getAntalForkerteBogstaver())*123;
                 textViewErrors.setText("Du vandt " + winnerName +"!\nDu fik\n" + point + " points!");
@@ -245,13 +247,12 @@ public class Play extends Fragment implements View.OnClickListener {
 
 
     /**
-     * @Override public void onResume() {
-     * startTimer(timer * 1000);
-     * countDownTimer.start();
-     * restart();
-     * updateUI();
-     * super.onResume();
-     * }
+
+      @Override public void onResume() {
+      updateUI();
+      super.onResume();
+      }
+
      */
 
     @Override

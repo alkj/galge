@@ -51,14 +51,5 @@ public class Highscore extends Fragment {
 
         highScore1.setText(highscores);
 
-        //HashSet<String> score = new HashSet<>();
-        //score = (HashSet<String>) prefs.getStringSet("score", Collections.singleton("loading..."));
-        //String q = "";
-        //while(score.iterator().hasNext()){
-        //    Log.i("TAG", "update: " + score);
-        //    q += score;
-        //    q += "\n";
-        //}
-
     }
 }
