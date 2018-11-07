@@ -26,7 +26,7 @@ import android.widget.TextView;
 import java.util.HashSet;
 import java.util.Timer;
 
-public class Play extends Fragment implements View.OnClickListener {
+public class Play extends Fragment implements View.OnClickListener, Dialog.OnInputSelected {
 
     //TODO: highscore
 
@@ -80,6 +80,7 @@ public class Play extends Fragment implements View.OnClickListener {
             }
 
         } else if (v.getId() == R.id.buttonRestart) {
+
             restart();
         }
     }
@@ -97,16 +98,10 @@ public class Play extends Fragment implements View.OnClickListener {
             gameIsRunning = false;
 
             if (galgeLogik.erSpilletVundet()) {
-                String highscores = prefs.getString("highscore", "none");
-                DialogFragment dialogFragment = new DialogFragment();
-                dialogFragment.setTargetFragment(Play.this, 1);
-                dialogFragment.show(getFragmentManager(), "Dialog");
+
+                startDialogWon();
 
                 startAnimationWon();
-                int point = (timer - 2 * galgeLogik.getAntalForkerteBogstaver())*123;
-                textViewErrors.setText("Du vandt " + winnerName +"!\nDu fik\n" + point + " points!");
-                highscores += ""+ winnerName + " " + point + "\n";
-                prefs.edit().putString("highscore", highscores).commit();
 
             } else {
                 textViewWord.setText("Du tabte! ordet var: \n" + galgeLogik.getOrdet());
@@ -117,6 +112,7 @@ public class Play extends Fragment implements View.OnClickListener {
         }
         galgeLogik.logStatus();
     }
+
 
 
     private void changeImage(int antalForkerteBogstaver) {
@@ -247,12 +243,10 @@ public class Play extends Fragment implements View.OnClickListener {
 
 
     /**
-
-      @Override public void onResume() {
-      updateUI();
-      super.onResume();
-      }
-
+     * @Override public void onResume() {
+     * updateUI();
+     * super.onResume();
+     * }
      */
 
     @Override
@@ -288,7 +282,26 @@ public class Play extends Fragment implements View.OnClickListener {
         }.execute();
     }
 
-    public void setWinnerName(String winnerName) {
-        this.winnerName = winnerName;
+    @Override
+    public void sendInput(String input) {
+        Log.i(TAG, "sendInput: " + input);
+        this.winnerName = input;
+        String highscores = prefs.getString("highscore", "none");
+        int point = (13*timer - 21 * galgeLogik.getAntalForkerteBogstaver()+ galgeLogik.getOrdet().length() );
+        Log.i(TAG, "updateUI: " + winnerName + " " + point);
+        textViewErrors.setText("Du vandt " + winnerName + "!\nDu fik\n" + point + " points!");
+        highscores += "" + winnerName + " " + point + "\n";
+        prefs.edit().putString("highscore", highscores).commit();
+
+
     }
+
+    private void startDialogWon() {
+
+        Dialog dialog = new Dialog();
+        dialog.setTargetFragment(Play.this,1);
+        dialog.show(getFragmentManager(), "Dialog");
+
+    }
+
 }

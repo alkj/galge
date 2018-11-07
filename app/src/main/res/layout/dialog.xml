@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_editor_absoluteY="81dp">
+    tools:context=".MainActivity">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout4"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/textViewDialog"
@@ -24,16 +21,15 @@
 
         <Button
             android:id="@+id/buttonDialogOK"
-            android:layout_width="197dp"
             android:layout_height="wrap_content"
+            android:layout_width="100dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-
             android:text="OK" />
 
         <Button
             android:id="@+id/buttonDialogBack"
-            android:layout_width="186dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
@@ -51,4 +47,4 @@
     </RelativeLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
