@@ -28,9 +28,9 @@ public class Dialog extends DialogFragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = super.onInflate(inflater, container, savedInstanceState);
+        //View view = super.onInflate(inflater, container, savedInstanceState);
 
-        //View view = inflater.inflate(R.layout.dialog, container, false);
+        View view = inflater.inflate(R.layout.dialog, container, false);
 
         editTextInputDialog = (EditText) view.findViewById(R.id.editTextDialogName);
         buttonOKDialog = (Button) view.findViewById(R.id.buttonDialogOK);
