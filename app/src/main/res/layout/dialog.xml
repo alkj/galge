@@ -16,7 +16,7 @@
             android:id="@+id/textViewDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tillykke! du har vundet ! "
+            android:text="Tillykke! du har vundet ! \nSkriv dit navn her "
             android:textSize="20dp" />
 
         <Button
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Skriv navn her"
+            android:text=""
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="68dp" />
 

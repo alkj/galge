@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeMap;
 
@@ -52,20 +53,35 @@ public class Highscore extends Fragment {
 
         String highscores = prefs.getString("highscore", "loader...");
 
-        String[] highscore = highscores.split("\n");
+        List<String> arrayListhigh = Arrays.asList(highscores.split("\n"));
+        Collections.sort(arrayListhigh);
+        Collections.reverse(arrayListhigh);
 
-
-
-        Arrays.sort(highscore);
-
-        String str ="";
-
-        for(int i = 0 ; i<5; i++){
-            str += highscore[i];
-            str += "\n";
+        try {
+            highScore1.setText(arrayListhigh.get(1));
+        } catch (Exception e){
+            highScore1.setText("ingen vinder");
         }
-
-        highScore1.setText(str);
+        try {
+            highScore2.setText(arrayListhigh.get(2));
+        } catch (Exception e){
+            highScore2.setText("ingen vinder");
+        }
+        try {
+            highScore3.setText(arrayListhigh.get(3));
+        } catch (Exception e){
+            highScore3.setText("ingen vinder");
+        }
+        try {
+            highScore4.setText(arrayListhigh.get(4));
+        } catch (Exception e){
+            highScore4.setText("ingen vinder");
+        }
+        try {
+            highScore5.setText(arrayListhigh.get(5));
+        } catch (Exception e){
+            highScore5.setText("ingen vinder");
+        }
 
     }
 }

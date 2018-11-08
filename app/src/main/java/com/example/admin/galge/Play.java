@@ -62,8 +62,7 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
 
         galgeLogik = GalgeLogik.getInstance();
 
-        //prefs.edit().putString("highscore", "100 Alexander\n200 Laura\n150 Peter\n50 Finn\n10 per\n150 Peter\n50 Finn\n10 per\n").commit();
-        prefs.edit().putString("highscore", "Alexander 100\nLaura 200\nPeter 150\nFinn 50\nper 10\nPeter 150\nFinn 50\nper 10\n").commit();
+        //prefs.edit().putString("highscore", "100 Alexander\n200 Laura\n150 Peter\n120 Finn\n110 per\n150 Peter\n100 Finn\n410 per\n220 Peter\n").commit();
 
 
 
@@ -291,12 +290,11 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
         Log.i(TAG, "sendInput: " + input);
         String winnerName = input;
         String highscores = prefs.getString("highscore", "none");
-        int point = (13*timer - 21 * galgeLogik.getAntalForkerteBogstaver()+ galgeLogik.getOrdet().length() );
+        int point = 100 + 10*timer - 20 * galgeLogik.getAntalForkerteBogstaver();
         Log.i(TAG, "updateUI: " + winnerName + " " + point);
         textViewErrors.setText("Du vandt " + winnerName + "!\nDu fik\n" + point + " points!");
         highscores += "" + point + " " + winnerName + "\n";
         prefs.edit().putString("highscore", highscores).commit();
-
 
     }
 
