@@ -55,30 +55,30 @@ public class Highscore extends Fragment {
 
         List<String> arrayListhigh = Arrays.asList(highscores.split("\n"));
         Collections.sort(arrayListhigh);
-        Collections.reverse(arrayListhigh);
+        //Collections.reverse(arrayListhigh);
 
         try {
-            highScore1.setText(arrayListhigh.get(1));
+            highScore1.setText(arrayListhigh.get(0));
         } catch (Exception e){
             highScore1.setText("ingen vinder");
         }
         try {
-            highScore2.setText(arrayListhigh.get(2));
+            highScore2.setText(arrayListhigh.get(1));
         } catch (Exception e){
             highScore2.setText("ingen vinder");
         }
         try {
-            highScore3.setText(arrayListhigh.get(3));
+            highScore3.setText(arrayListhigh.get(2));
         } catch (Exception e){
             highScore3.setText("ingen vinder");
         }
         try {
-            highScore4.setText(arrayListhigh.get(4));
+            highScore4.setText(arrayListhigh.get(3));
         } catch (Exception e){
             highScore4.setText("ingen vinder");
         }
         try {
-            highScore5.setText(arrayListhigh.get(5));
+            highScore5.setText(arrayListhigh.get(4));
         } catch (Exception e){
             highScore5.setText("ingen vinder");
         }

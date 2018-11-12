@@ -28,7 +28,6 @@ import java.util.Timer;
 
 public class Play extends Fragment implements View.OnClickListener, Dialog.OnInputSelected {
 
-    //TODO: highscore
 
     private final String TAG = "PlayFragment";
 
@@ -41,6 +40,7 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
     int timer;
     boolean gameIsRunning;
     SharedPreferences prefs;
+    int errors;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -101,12 +101,16 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
             gameIsRunning = false;
 
             if (galgeLogik.erSpilletVundet()) {
-
                 startDialogWon();
-
                 startAnimationWon();
+                this.errors = galgeLogik.getAntalForkerteBogstaver();
 
             } else {
+
+                Intent intent = new Intent(getActivity(), Lost.class);
+                intent.putExtra("theWord", galgeLogik.getOrdet());
+                startActivity(intent);
+
                 textViewWord.setText("Du tabte! ordet var: \n" + galgeLogik.getOrdet());
                 textViewErrors.setText("Spillet er slut");
                 startAnimationLost();
@@ -278,7 +282,6 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
             @Override
             protected void onPostExecute(Object titler) {
                 Log.i(TAG, "onPostExecute: -------------------------------------------comitted new words-----------------------------------");
-                //galgeLogik.erstatMuligeOrd(newWords);
                 prefs.edit().putString("titler", newWords).commit();
                 //updateUI();
             }
@@ -290,10 +293,10 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
         Log.i(TAG, "sendInput: " + input);
         String winnerName = input;
         String highscores = prefs.getString("highscore", "none");
-        int point = 100 + 10*timer - 20 * galgeLogik.getAntalForkerteBogstaver();
+        int point = errors;
         Log.i(TAG, "updateUI: " + winnerName + " " + point);
         textViewErrors.setText("Du vandt " + winnerName + "!\nDu fik\n" + point + " points!");
-        highscores += "" + point + " " + winnerName + "\n";
+        highscores += "" + galgeLogik.getAntalForkerteBogstaver() + " " + winnerName + " " + galgeLogik.getOrdet() + "\n";
         prefs.edit().putString("highscore", highscores).commit();
 
     }

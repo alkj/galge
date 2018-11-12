@@ -12,10 +12,17 @@ import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Galgespil med en hovedmenu. 
+     *
+     *
+     * @Alexander.Kjeldsen
+     * @s165477@student.dtu.dk
+     */
+
     Home home = new Home();
     Play play = new Play();
     Highscore highscore = new Highscore();
-    //TODO: implement singleton ?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +32,14 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home).commit();
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            Fragment selectedFragment = null;
+            Fragment selectedFragment = home;
             switch (menuItem.getItemId()) {
                 case (R.id.menu_home):
                     selectedFragment = home;

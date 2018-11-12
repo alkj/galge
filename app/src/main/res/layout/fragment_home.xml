@@ -7,11 +7,13 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/textViewHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Home"
+        android:layout_alignParentTop="true"
 
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:text="Velkommen til galgespillet.\ndu skal gætte ordet hurtigst muligt før tiden løber ud ! \ndu har et minut, og hvis du gætter ordet, \nså kan du skrive dit navn på highscorelisten!\nman gætter ved at trykke på 'gæt'-knappen!\n\nHeld og lykke!" />
 
 </RelativeLayout>
