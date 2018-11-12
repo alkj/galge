@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Galgespil med en menu af tre fagmenter.
-     * 
+     *
      *
      * @Alexander.Kjeldsen
      * @s165477@student.dtu.dk
