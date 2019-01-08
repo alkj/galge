@@ -1,12 +1,16 @@
 package com.example.admin.galge;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
 
 
 /**
@@ -29,6 +33,7 @@ public class Multiplayer extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private String string;
+    private ListView listView;
 
     public Multiplayer() {
         // Required empty public constructor
@@ -64,6 +69,32 @@ public class Multiplayer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View r = inflater.inflate(R.layout.fragment_multiplayer, container, false);
+
+        listView = r.findViewById(R.id.listViewChooseWord);
+
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("hi");
+        arrayList.add("this");
+        arrayList.add("is");
+        arrayList.add("a");
+        arrayList.add("list");
+        arrayList.add("hi");
+        arrayList.add("this");
+        arrayList.add("is");
+        arrayList.add("a");
+        arrayList.add("list");
+        arrayList.add("hi");
+        arrayList.add("this");
+        arrayList.add("is");
+        arrayList.add("a");
+        arrayList.add("list");
+
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, arrayList);
+
+        listView.setAdapter(arrayAdapter);
+
+
 
         return r;
     }
