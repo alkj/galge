@@ -1,6 +1,7 @@
 package com.example.admin.galge;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Multiplayer.OnFragmentInteractionListener{
 
     /**
-     * Galgespil med en menu af tre fagmenter.
+     * Galgespil med en menu af fem fagmenter.
      *
      *
      * @Alexander.Kjeldsen
@@ -22,7 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     Home home = new Home();
     Play play = new Play();
+    Multiplayer multiplayer = new Multiplayer();
     Highscore highscore = new Highscore();
+    Settings settings = new Settings();
+    String multiplayerWord;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +52,14 @@ public class MainActivity extends AppCompatActivity {
                 case (R.id.menu_play):
                     selectedFragment = play;
                     break;
+                case (R.id.menu_multiplayer):
+                    selectedFragment = multiplayer;
+                    break;
                 case (R.id.menu_highscore):
                     selectedFragment = highscore;
+                    break;
+                case (R.id.menu_settings):
+                    selectedFragment = settings;
                     break;
             }
 
@@ -65,5 +76,10 @@ public class MainActivity extends AppCompatActivity {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onFragmentInteraction(String s) {
+        multiplayerWord = s;
     }
 }
