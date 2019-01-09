@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashSet;
 import java.util.Timer;
@@ -41,6 +42,7 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
     boolean gameIsRunning;
     SharedPreferences prefs;
     int errors;
+    boolean multiplayermode;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -68,7 +70,27 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
 
         restart();
 
+        isMultiplayer();
+
+        updateUI();
+
         return rod;
+    }
+
+    private void isMultiplayer() {
+        multiplayermode = prefs.getBoolean("multiplayer", false);
+        String theWord = prefs.getString("multiplayerWord", "-1");
+
+
+        if ( theWord == "-1"){
+            Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode + " no word", Toast.LENGTH_SHORT).show();
+        } else if (multiplayermode==true){
+            Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode + " the word is " + theWord, Toast.LENGTH_SHORT).show();
+            galgeLogik.setOrdet(theWord);
+        }  else if (multiplayermode==false){
+            Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -285,6 +307,8 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
                 prefs.edit().putString("titler", newWords).commit();
                 //updateUI();
             }
+
+
         }.execute();
     }
 
@@ -309,4 +333,14 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
 
     }
 
+    @Override
+    public void onResume() {
+
+        restart();
+        isMultiplayer();
+        updateUI();
+
+        super.onResume();
+
+    }
 }

@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-public class MainActivity extends AppCompatActivity implements Multiplayer.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Galgespil med en menu af fem fagmenter.
@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements Multiplayer.OnFra
     Multiplayer multiplayer = new Multiplayer();
     Highscore highscore = new Highscore();
     Settings settings = new Settings();
-    String multiplayerWord;
 
 
     @Override
@@ -78,8 +77,5 @@ public class MainActivity extends AppCompatActivity implements Multiplayer.OnFra
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    @Override
-    public void onFragmentInteraction(String s) {
-        multiplayerWord = s;
-    }
+
 }

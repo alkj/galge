@@ -1,26 +1,24 @@
 package com.example.admin.galge;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.sip.SipSession;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Multiplayer.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Multiplayer#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class Multiplayer extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,22 +29,16 @@ public class Multiplayer extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
     private String string;
     private ListView listView;
+    private SharedPreferences sharedPreferences;
 
     public Multiplayer() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Multiplayer.
-     */
+
+
     // TODO: Rename and change types and number of parameters
     public static Multiplayer newInstance(String param1, String param2) {
         Multiplayer fragment = new Multiplayer();
@@ -70,10 +62,12 @@ public class Multiplayer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View r = inflater.inflate(R.layout.fragment_multiplayer, container, false);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
         listView = r.findViewById(R.id.listViewChooseWord);
 
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("hi");
+        final ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("multiplayer mode off");
         arrayList.add("this");
         arrayList.add("is");
         arrayList.add("a");
@@ -94,47 +88,36 @@ public class Multiplayer extends Fragment {
 
         listView.setAdapter(arrayAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position == 0){
+                    sharedPreferences.edit().putBoolean("multiplayer", false).commit();
+                    Toast.makeText(getActivity(),  " multiplayer mode off ", Toast.LENGTH_SHORT).show();
+
+                } else if (position > 0){
+                    sharedPreferences.edit().putBoolean("multiplayer", true).commit();
+                    sharedPreferences.edit().putString("multiplayerWord", arrayList.get(position)).commit();
+                    Toast.makeText(getActivity(), "clicked : " + position + " multiplayer mode on. the word is" + arrayList.get(position), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    throw new RuntimeException(getContext().toString());
+                }
+
+
+
+            }
+        });
+
+
+
 
 
         return r;
     }
 
-    public void onButtonPressed(String s) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(s);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(String s);
-    }
 
 }

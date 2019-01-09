@@ -59,6 +59,11 @@ public class GalgeLogik {
         return ordet;
     }
 
+    public void setOrdet(String s){
+        ordet = s;
+        opdaterSynligtOrd();
+    }
+
     public int getAntalForkerteBogstaver() {
         return antalForkerteBogstaver;
     }
