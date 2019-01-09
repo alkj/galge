@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings">
+    tools:context=".Settings"
+    tools:layout_editor_absoluteY="81dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <Switch
+        android:id="@+id/switchSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="25dp"
+        android:text="Sound"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRestartHighscore" />
+
+    <Button
+        android:id="@+id/buttonRestartHighscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="57dp"
+        android:text="restart highscore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonMultiplayermode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/buttonRestartHighscore"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="26dp"
+        android:text="multiplayer mode"
+        app:layout_constraintEnd_toEndOf="@+id/switchSound"
+        app:layout_constraintStart_toEndOf="@+id/switchSound"
+        app:layout_constraintTop_toBottomOf="@+id/switchSound" />
+
+    <Switch
+        android:id="@+id/switchMultiplayerMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:text="Multiplayer mode"
+        app:layout_constraintStart_toStartOf="@+id/buttonMultiplayermode"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMultiplayermode" />
+
+
+</android.support.constraint.ConstraintLayout>
