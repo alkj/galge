@@ -5,65 +5,27 @@
     android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fcceb3">
+    android:background="#fcceb3"
+    tools:layout_editor_absoluteY="81dp">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Highscore"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewHighScore1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
-        android:text="Alexander 50"
+
+    <ListView
+        android:id="@+id/listViewHighscore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHighscoreTitle" />
+
+    <TextView
+        android:id="@+id/textViewHighscoreTitle"
+        android:layout_width="96dp"
+        android:layout_height="23dp"
+        android:text="Highscores"
+        app:layout_constraintStart_toStartOf="@+id/listViewHighscore"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewHighScore2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:text="Alexander 50"
-        app:layout_constraintStart_toStartOf="@+id/textViewHighScore1"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHighScore1" />
-
-    <TextView
-        android:id="@+id/textViewHighScore3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Alexander 50"
-        app:layout_constraintStart_toStartOf="@+id/textViewHighScore2"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHighScore2" />
-
-    <TextView
-        android:id="@+id/textViewHighScore4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:text="Alexander 50"
-        app:layout_constraintStart_toStartOf="@+id/textViewHighScore3"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHighScore3" />
-
-    <TextView
-        android:id="@+id/textViewHighScore5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Alexander 50"
-        app:layout_constraintStart_toStartOf="@+id/textViewHighScore4"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHighScore4" />
 
 </android.support.constraint.ConstraintLayout>

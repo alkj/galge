@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,13 +26,10 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 
 
-//TODO: implement logic
 
 public class Highscore extends Fragment {
 
-    TextView highScore1, highScore2, highScore3, highScore4, highScore5;
     SharedPreferences prefs;
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -37,51 +37,36 @@ public class Highscore extends Fragment {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 
-        highScore1 = (TextView) rod.findViewById(R.id.textViewHighScore1);
-        highScore2 = (TextView) rod.findViewById(R.id.textViewHighScore2);
-        highScore3 = (TextView) rod.findViewById(R.id.textViewHighScore3);
-        highScore4 = (TextView) rod.findViewById(R.id.textViewHighScore4);
-        highScore5 = (TextView) rod.findViewById(R.id.textViewHighScore5);
+        String highscores = prefs.getString("highscore", "loader...");
+        List<String> arrayListhigh = Arrays.asList(highscores.split("\n"));
 
-        update();
+        for (int i = 0; i<arrayListhigh.size();i++){
+            System.out.print("arraylist = " + arrayListhigh.get(i).toString());
+            Log.i("TAG", "onCreateView: " + arrayListhigh.get(i).toString());
+            if (arrayListhigh.get(i)==""||arrayListhigh.get(i)==" "||arrayListhigh.get(i)=="\n"||arrayListhigh.get(i)=="  "||arrayListhigh.get(i)=="   "||arrayListhigh.get(i)=="    "){
+                arrayListhigh.remove(i);
+            }
+        }
+
+        Collections.sort(arrayListhigh);
+        String[] stringListHighscore = (String[]) arrayListhigh.toArray();
+
+        ArrayList<String> arrayList = new ArrayList<String>();
+
+        for (int i = 0;i<=4;i++){
+            arrayList.add(i, arrayListhigh.get(i));
+        }
+
+        ListAdapter listAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, arrayList);
+        ListView listView = rod.findViewById(R.id.listViewHighscore);
+        listView.setAdapter(listAdapter);
+
+
+
+
 
 
         return rod;
     }
 
-    private void update() {
-
-        String highscores = prefs.getString("highscore", "loader...");
-
-        List<String> arrayListhigh = Arrays.asList(highscores.split("\n"));
-        Collections.sort(arrayListhigh);
-        //Collections.reverse(arrayListhigh);
-
-        try {
-            highScore1.setText(arrayListhigh.get(0));
-        } catch (Exception e){
-            highScore1.setText("ingen vinder");
-        }
-        try {
-            highScore2.setText(arrayListhigh.get(1));
-        } catch (Exception e){
-            highScore2.setText("ingen vinder");
-        }
-        try {
-            highScore3.setText(arrayListhigh.get(2));
-        } catch (Exception e){
-            highScore3.setText("ingen vinder");
-        }
-        try {
-            highScore4.setText(arrayListhigh.get(3));
-        } catch (Exception e){
-            highScore4.setText("ingen vinder");
-        }
-        try {
-            highScore5.setText(arrayListhigh.get(4));
-        } catch (Exception e){
-            highScore5.setText("ingen vinder");
-        }
-
-    }
 }
