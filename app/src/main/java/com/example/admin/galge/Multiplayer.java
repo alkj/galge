@@ -40,21 +40,20 @@ public class Multiplayer extends Fragment {
 
         final ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("multiplayer mode off");
-        arrayList.add("this");
-        arrayList.add("is");
-        arrayList.add("a");
-        arrayList.add("list");
-        arrayList.add("hi");
-        arrayList.add("this");
-        arrayList.add("is");
-        arrayList.add("a");
-        arrayList.add("list");
-        arrayList.add("hi");
-        arrayList.add("this");
-        arrayList.add("is");
-        arrayList.add("a");
-        arrayList.add("list");
-
+        arrayList.add("peber");
+        arrayList.add("garanti");
+        arrayList.add("tykke");
+        arrayList.add("garn");
+        arrayList.add("typisk");
+        arrayList.add("tarvelig");
+        arrayList.add("tænkelig");
+        arrayList.add("katastrofe");
+        arrayList.add("champignon");
+        arrayList.add("blomster");
+        arrayList.add("trivsel");
+        arrayList.add("tiger");
+        arrayList.add("zebra");
+        arrayList.add("and");
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, arrayList);
 
@@ -66,18 +65,26 @@ public class Multiplayer extends Fragment {
 
                 if (position == 0){
                     sharedPreferences.edit().putBoolean("multiplayer", false).commit();
+                    sharedPreferences.edit().putBoolean("multiplayer", false).commit();
                     Toast.makeText(getActivity(),  " multiplayer mode off ", Toast.LENGTH_SHORT).show();
 
                 } else if (position > 0){
                     sharedPreferences.edit().putBoolean("multiplayer", true).commit();
                     sharedPreferences.edit().putString("multiplayerWord", arrayList.get(position)).commit();
-                    Toast.makeText(getActivity(), "clicked : " + position + " multiplayer mode on. the word is" + arrayList.get(position), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "multiplayer mode on. the word is " + arrayList.get(position), Toast.LENGTH_SHORT).show();
 
                 } else {
                     throw new RuntimeException(getContext().toString());
+
                 }
             }
         });
         return r;
+    }
+
+    @Override
+    public void onResume() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        super.onResume();
     }
 }

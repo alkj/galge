@@ -3,6 +3,7 @@ package com.example.admin.galge;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -43,12 +44,18 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
     SharedPreferences prefs;
     int errors;
     boolean multiplayermode;
+    boolean sound;
+    MediaPlayer mediaPlayerWon;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.fragment_play, container, false);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
+        sound = prefs.getBoolean("sound", true);
+
+        mediaPlayerWon = MediaPlayer.create(getActivity(), R.raw.trumpet_won);
 
         buttonGuess = (Button) rod.findViewById(R.id.buttonGuess);
         buttonRestart = (Button) rod.findViewById(R.id.buttonRestart);
@@ -76,7 +83,8 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
         String theWord = prefs.getString("multiplayerWord", "-1");
 
         if ( theWord == "-1"){
-            Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode + " no word", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode + " no word. \nGame restarted", Toast.LENGTH_SHORT).show();
+            restart();
         } else if (multiplayermode==true){
             Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode + " the word is " + theWord, Toast.LENGTH_SHORT).show();
             galgeLogik.setOrdet(theWord);
@@ -120,7 +128,9 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
                 startDialogWon();
                 startAnimationWon();
                 this.errors = galgeLogik.getAntalForkerteBogstaver();
-
+                if (sound){
+                    mediaPlayerWon.start();
+                }
             } else {
 
                 Intent intent = new Intent(getActivity(), Lost.class);
@@ -253,28 +263,25 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
 
             @Override
             public void onFinish() {
-                textViewTimer.setText("" + 0 + "");
-                //countDownTimer.cancel();
-                timer = 0;
                 gameIsRunning = false;
-                updateUI();
+                try {
+                    countDownTimer.cancel();
+                } catch (Exception e){
+                    Log.d(TAG, "onFinish: timer can not cancel");
+                }
+
+                try{
+                    textViewTimer.setText("" + 0 + "");
+                    timer = 0;
+                    updateUI();
+                } catch (Exception e){
+                    Log.d(TAG, "onFinish: timer done, but window not in use");
+
+                }
             }
         };
 
         countDownTimer.start();
-    }
-
-
-    /**
-     * @Override public void onResume() {
-     * updateUI();
-     * super.onResume();
-     * }
-     */
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
 
@@ -327,4 +334,23 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
 
     }
 
+    @Override
+    public void onDestroy() {
+        if (mediaPlayerWon!=null){
+            mediaPlayerWon.release();
+            mediaPlayerWon = null;
+        }
+
+        super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+
+        if (mediaPlayerWon==null){
+            mediaPlayerWon = MediaPlayer.create(getActivity(), R.raw.trumpet_won);
+        }
+
+        super.onResume();
+    }
 }

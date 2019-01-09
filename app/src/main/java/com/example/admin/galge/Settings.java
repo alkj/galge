@@ -11,17 +11,21 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
 
-public class Settings extends Fragment implements View.OnTouchListener {
+public class Settings extends Fragment {
 
     private Button buttonRestartHighscore;
     private Switch switchSound;
     private Switch switchMultiplayer;
 
     private SharedPreferences sharedPreferences;
+
+    private boolean sound;
+    private boolean multiplayer;
 
 
     public Settings() {
@@ -36,44 +40,56 @@ public class Settings extends Fragment implements View.OnTouchListener {
         switchSound = v.findViewById(R.id.switchSound);
         switchMultiplayer = v.findViewById(R.id.switchMultiplayerMode);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
 
         buttonRestartHighscore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                restart();
+                sharedPreferences.edit().putString("highscore", "2 Alexander\n3 Laura\n4 Peter\n5 Finn\n6 per\n").commit();
+                Toast.makeText(getActivity(), "Highscore restartet", Toast.LENGTH_SHORT).show();
             }
         });
 
+        switchMultiplayer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //toggle
+            }
+        });
 
-        switchMultiplayer.setOnTouchListener(this);
-        switchSound.setOnTouchListener(this);
-
-
-
+        switchSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //toggle
+            }
+        });
         return v;
     }
 
-    private void restart() {
-        sharedPreferences.edit().putString("highscore", "1 Alexander\n2 Laura\n1 Peter\n2 Finn\n1 per\n5 Peter\n1 Finn\n4 per\n2 Peter\n").commit();
-        Toast.makeText(getActivity(), "Highscore restartet", Toast.LENGTH_SHORT);
+    @Override
+    public void onStop() {
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
+        sharedPreferences.edit().putBoolean("multiplayer", switchMultiplayer.isChecked()).commit();
+        sharedPreferences.edit().putBoolean("sound", switchSound.isChecked()).commit();
+        super.onStop();
     }
 
     @Override
     public void onResume() {
-        boolean b = sharedPreferences.getBoolean("multiplayer", true);
-        switchMultiplayer.setChecked(b);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
+        if (sharedPreferences.contains("multiplayer")){
+            multiplayer = sharedPreferences.getBoolean("multiplayer", false);
+            switchMultiplayer.setChecked(multiplayer);
+        }
+        if (sharedPreferences.contains("sound")){
+            sound = sharedPreferences.getBoolean("sound", true);
+            switchSound.setChecked(sound);
+        }
 
         super.onResume();
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (v==switchMultiplayer)
-            Toast.makeText(getActivity(), "Multiplayer", Toast.LENGTH_SHORT).show();
-        if (v==switchSound)
-            Toast.makeText(getActivity(), "Sound", Toast.LENGTH_SHORT).show();
-
-        return false;
     }
 }
