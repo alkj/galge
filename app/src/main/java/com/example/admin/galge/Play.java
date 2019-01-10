@@ -3,6 +3,7 @@ package com.example.admin.galge;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.jinatonic.confetti.CommonConfetti;
+
 import java.util.HashSet;
 import java.util.Timer;
 
@@ -46,6 +49,7 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
     boolean multiplayermode;
     boolean sound;
     MediaPlayer mediaPlayerWon;
+    ViewGroup containerA;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
         textViewWrongLetters = (TextView) rod.findViewById(R.id.textViewWrongLetters);
         textViewTimer = (TextView) rod.findViewById(R.id.textViewTimer);
         imageViewHangingMan = (ImageView) rod.findViewById(R.id.imageViewGalge);
+        containerA = (ViewGroup) rod.findViewById(R.id.relativeLayoutPlay);
 
         buttonGuess.setOnClickListener(this);
         buttonRestart.setOnClickListener(this);
@@ -128,6 +133,7 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
                 startDialogWon();
                 startAnimationWon();
                 this.errors = galgeLogik.getAntalForkerteBogstaver();
+                CommonConfetti.rainingConfetti(containerA, new int[] {Color.RED, Color.GREEN, Color.WHITE, Color.BLACK, Color.YELLOW}).infinite();
                 if (sound){
                     mediaPlayerWon.start();
                 }
