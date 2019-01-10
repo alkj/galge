@@ -43,7 +43,7 @@ public class Highscore extends Fragment {
         for (int i = 0; i<arrayListhigh.size();i++){
             System.out.print("arraylist = " + arrayListhigh.get(i).toString());
             Log.i("TAG", "onCreateView: " + arrayListhigh.get(i).toString());
-            if (arrayListhigh.get(i)==""||arrayListhigh.get(i)==" "||arrayListhigh.get(i)=="\n"||arrayListhigh.get(i)=="  "||arrayListhigh.get(i)=="   "||arrayListhigh.get(i)=="    "){
+            if (arrayListhigh.get(i)==""||arrayListhigh.get(i)==" "||arrayListhigh.get(i)=="\n"||arrayListhigh.get(i)=="  "||arrayListhigh.get(i)=="   "||arrayListhigh.get(i)==""){
                 arrayListhigh.remove(i);
             }
         }
@@ -53,12 +53,16 @@ public class Highscore extends Fragment {
 
         ArrayList<String> arrayList = new ArrayList<String>();
 
-        for (int i = 0;i<=4;i++){
+        for (int i = 0;i<=5;i++){
             arrayList.add(i, arrayListhigh.get(i));
         }
 
+        //ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), R.id.listViewHighscore, R.layout.my_list, arrayList);
+
         ListAdapter listAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, arrayList);
+
         ListView listView = rod.findViewById(R.id.listViewHighscore);
+
         listView.setAdapter(listAdapter);
 
 

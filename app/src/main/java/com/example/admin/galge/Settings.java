@@ -45,7 +45,7 @@ public class Settings extends Fragment {
         buttonRestartHighscore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPreferences.edit().putString("highscore", "2 Alexander\n3 Laura\n4 Peter\n5 Finn\n6 per\n").commit();
+                sharedPreferences.edit().putString("highscore", "\n2 Alexander rugbrød\n3 Laura peber\n4 Peter høj\n5 Finn i\n6 per ø\n").commit();
                 Toast.makeText(getActivity(), "Highscore restartet", Toast.LENGTH_SHORT).show();
             }
         });
