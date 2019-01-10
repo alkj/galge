@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
      * Indeholder en metode til at skjule tastatur, for den virker ikke i fragmenter.
      * Ellers bruges metoden bottomnavigation til at udskifte fragmenter.
      *
+     * Der kunne godt implementeres flere ting og finpudses lidt.
+     *
      * @Alexander.Kjeldsen
      * @s165477@student.dtu.dk
      */
