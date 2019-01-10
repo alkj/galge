@@ -40,30 +40,45 @@ public class Highscore extends Fragment {
         String highscores = prefs.getString("highscore", "loader...");
         List<String> arrayListhigh = Arrays.asList(highscores.split("\n"));
 
-        for (int i = 0; i<arrayListhigh.size();i++){
-            System.out.print("arraylist = " + arrayListhigh.get(i).toString());
-            Log.i("TAG", "onCreateView: " + arrayListhigh.get(i).toString());
-            if (arrayListhigh.get(i)==""||arrayListhigh.get(i)==" "||arrayListhigh.get(i)=="\n"||arrayListhigh.get(i)=="  "||arrayListhigh.get(i)=="   "||arrayListhigh.get(i)==""){
-                arrayListhigh.remove(i);
-            }
-        }
-
         Collections.sort(arrayListhigh);
         String[] stringListHighscore = (String[]) arrayListhigh.toArray();
 
-        ArrayList<String> arrayList = new ArrayList<String>();
+        final ArrayList<String> arrayListName = new ArrayList<String>();
+        final ArrayList<String> arrayListWord = new ArrayList<String>();
 
         for (int i = 0;i<=5;i++){
-            arrayList.add(i, arrayListhigh.get(i));
+            try {
+                arrayListName.add(i, arrayListhigh.get(i));
+
+            } catch (Exception e){
+                Log.i("TAG", "onCreateView: " + e);
+            }
+
+            try {
+                arrayListWord.add(i, arrayListhigh.get(i).split(" ")[2]);
+            } catch (Exception e){
+                Log.i("TAG", "onCreateView: " + e);
+                arrayListWord.add(i, " ");
+            }
         }
 
-        //ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), R.id.listViewHighscore, R.layout.my_list, arrayList);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), R.layout.my_list, R.id.textViewHighscoreTitle, arrayListName){
+            @Override
+            public View getView(int position, View cachedView, ViewGroup parent) {
+                View view = super.getView(position, cachedView, parent);
 
-        ListAdapter listAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, arrayList);
+                TextView textViewHighscoreTitle = view.findViewById(R.id.textViewHighscoreTitle);
+                TextView textViewHighscoreSubtitle = view.findViewById(R.id.textViewHighscoreSubtitle);
+                textViewHighscoreTitle.setText(arrayListName.get(position));
+                textViewHighscoreSubtitle.setText(arrayListWord.get(position));
+
+                return view;
+            }
+       };
 
         ListView listView = rod.findViewById(R.id.listViewHighscore);
 
-        listView.setAdapter(listAdapter);
+        listView.setAdapter(arrayAdapter);
 
 
 
