@@ -97,14 +97,13 @@ public class Play extends Fragment implements View.OnClickListener, Dialog.OnInp
         String theWord = prefs.getString("multiplayerWord", "-1");
 
         if ( theWord == "-1"){
-            Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode + " no word. \nGame restarted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), "multiplayer mode is off. no word. \nGame restarted", Toast.LENGTH_SHORT).show();
             restart();
         } else if (multiplayermode==true){
-            Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode + " the word is " + theWord, Toast.LENGTH_SHORT).show();
             galgeLogik.setOrdet(theWord);
             updateUI();
         }  else if (multiplayermode==false){
-            Toast.makeText(this.getActivity(), "multiplayer mode is " + multiplayermode, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), "multiplayer slået fra", Toast.LENGTH_SHORT).show();
         }
 
     }

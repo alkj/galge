@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
-        android:text="Sound"
+        android:text="Lyd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonRestartHighscore" />
 
@@ -28,19 +28,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="35dp"
         android:layout_marginTop="57dp"
-        android:text="restart highscore"
+        android:text="Nulstil highscore"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    Button
-    android:id="@+id/buttonMultiplayermode"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignStart="@+id/buttonRestartHighscore"
-    android:layout_centerVertical="true"
-    android:text="multiplayer mode"
-    tools:layout_editor_absoluteX="35dp"
-    tools:layout_editor_absoluteY="183dp" />
 
     <Switch
         android:id="@+id/switchMultiplayerMode"
@@ -48,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="28dp"
-        android:text="Multiplayer mode"
+        android:text="Multiplayer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchSound" />
 

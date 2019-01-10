@@ -39,7 +39,7 @@ public class Multiplayer extends Fragment {
         listView = r.findViewById(R.id.listViewChooseWord);
 
         final ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("multiplayer mode off");
+        arrayList.add("slå multiplayer mode fra");
         arrayList.add("peber");
         arrayList.add("garanti");
         arrayList.add("tykke");
