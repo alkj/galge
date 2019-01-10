@@ -29,6 +29,14 @@ import java.util.TreeMap;
 
 public class Highscore extends Fragment {
 
+    /**
+     * Det var lidt svært at styre helt præcist hvad der sker med highscoren.
+     * men det virker stort set perfekt, hvis man bare ikke skriver mellemrum i sit navn.
+     *
+     *
+     * @alexander_kjeldsen
+     */
+
     SharedPreferences prefs;
 
     @Override

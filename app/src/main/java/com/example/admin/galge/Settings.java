@@ -53,14 +53,14 @@ public class Settings extends Fragment {
         switchMultiplayer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //toggle
+                //Tom da det kun virker at bruge onStop()
             }
         });
 
         switchSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //toggle
+                //tom
             }
         });
         return v;

@@ -13,6 +13,8 @@ import android.widget.EditText;
 
 public class Dialog extends DialogFragment implements View.OnClickListener {
 
+
+
     private static final String TAG = "Dialog";
 
     public OnInputSelected onInputSelected;

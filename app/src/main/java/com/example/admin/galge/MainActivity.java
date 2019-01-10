@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Galgespil med en menu af fem fagmenter.
      *
+     * Indeholder en metode til at skjule tastatur, for den virker ikke i fragmenter.
+     * Ellers bruges metoden bottomnavigation til at udskifte fragmenter.
      *
      * @Alexander.Kjeldsen
      * @s165477@student.dtu.dk
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home).commit();
 
     }
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override

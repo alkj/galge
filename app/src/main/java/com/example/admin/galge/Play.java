@@ -28,10 +28,19 @@ import android.widget.Toast;
 
 import com.github.jinatonic.confetti.CommonConfetti;
 
-import java.util.HashSet;
-import java.util.Timer;
 
 public class Play extends Fragment implements View.OnClickListener, Dialog.OnInputSelected {
+
+    /**
+     * Jeg programmerer på engelsk, men objektet er på dansk.
+     * nogle interfaces implementeret.
+     *
+     * onDestroy onResume implementeret for at styre/rydde op i media player.
+     * indstillinger styre om der er lyd og om det er multiplayer.
+     *
+     * @Alexander_kjeldsen
+     * @s165477
+     **/
 
 
     private final String TAG = "PlayFragment";

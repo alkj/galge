@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-//TODO: implement logic
 
 public class Home extends Fragment {
 
